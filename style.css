@@ -1,0 +1,309 @@
+
+/* =====================================
+   DISEÑO GENERAL FICHA DNK
+   ===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+
+.maki-spoilers {
+  max-width: 600px;
+  width: 100%;
+  margin: 20px auto;
+  line-height: 1.5;
+}
+
+.maki-spoilers * {
+  box-sizing: border-box;
+}
+
+/* TÍTULO Y PIE */
+
+.maki-titulo,
+.maki-footer {
+  font-family: 'UnifrakturMaguntia', cursive;
+  text-align: center;
+  line-height: 1.3;
+  background: linear-gradient(
+    to bottom,
+    var(--rojo-oscuro) 0%,
+    var(--rojo-medio) 50%,
+    var(--rojo-claro) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--rojo-medio);
+}
+
+.maki-titulo {
+  font-size: 38px;
+  margin: 12px 0 18px;
+}
+
+.maki-footer {
+  font-size: 27px;
+  margin: 20px 0 8px;
+  padding-top: 12px;
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(
+    90deg,
+    var(--rojo-oscuro),
+    var(--rojo-medio),
+    var(--rojo-claro),
+    transparent
+  ) 1;
+}
+
+/* SPOILERS */
+
+.maki-spoiler {
+  margin-bottom: 10px;
+}
+
+.maki-spoiler input {
+  display: none;
+}
+
+.maki-spoiler label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      var(--rojo-oscuro) 0%,
+      var(--rojo-medio) 35%,
+      var(--rojo-claro) 65%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      var(--rojo-oscuro) 0%,
+      var(--rojo-medio) 35%,
+      var(--rojo-claro) 65%,
+      transparent 100%
+    );
+  background-size: 100% 1px, 100% 1px;
+  background-position: top left, bottom left;
+  background-repeat: no-repeat;
+  padding: 8px 0;
+}
+
+/* EFECTO ROJO AL PASAR EL CURSOR */
+
+.maki-spoiler label:before {
+  content: "";
+  position: absolute;
+  inset: 1px 0;
+  background: linear-gradient(
+    90deg,
+    rgba(100, 0, 0, .96) 0%,
+    rgba(160, 0, 0, .78) 25%,
+    rgba(227, 38, 54, .48) 50%,
+    rgba(227, 38, 54, .18) 72%,
+    rgba(227, 38, 54, 0) 100%
+  );
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    clip-path 1s cubic-bezier(.22, .61, .36, 1),
+    opacity .45s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.maki-spoiler label:hover:before {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transition:
+    clip-path 1s cubic-bezier(.22, .61, .36, 1),
+    opacity .45s ease;
+}
+
+/* IMÁGENES */
+
+.maki-spoiler .maki-tabimg {
+  display: block;
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  position: relative;
+  z-index: 0;
+  opacity: 1;
+  transition: opacity .8s ease, filter .8s ease;
+}
+
+.maki-spoiler label:hover .maki-tabimg {
+  opacity: .62;
+  filter: contrast(1.04);
+  transition: opacity .8s ease, filter .8s ease;
+}
+
+/* TÍTULOS SOBRE LAS IMÁGENES */
+
+.maki-spoiler .maki-labeltitulo {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: calc(100% - 65px);
+  transform: translate(-50%, -44%);
+  opacity: 0;
+  text-align: center;
+  color: #fff;
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 30px;
+  line-height: 1.2;
+  text-shadow: 0 0 5px #000, 0 0 12px #000;
+  transition:
+    opacity .7s ease,
+    transform .8s cubic-bezier(.22, .61, .36, 1);
+  pointer-events: none;
+}
+
+.maki-spoiler label:hover .maki-labeltitulo {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity .7s ease,
+    transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+
+/* SIGNOS + Y − */
+
+.maki-spoiler label:after {
+  content: "+";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #fff;
+  z-index: 3;
+  text-shadow: 0 0 4px var(--rojo-oscuro);
+  transition: opacity .5s ease;
+}
+
+.maki-spoiler input:checked + label:after {
+  content: "−";
+}
+
+/* APERTURA DEL CONTENIDO */
+
+.maki-spoiler .contenido {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .3s ease;
+}
+
+.maki-spoiler .interior {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 13px;
+  transition: padding .3s ease;
+}
+
+.maki-spoiler input:checked ~ .contenido {
+  grid-template-rows: 1fr;
+}
+
+.maki-spoiler input:checked ~ .contenido .interior {
+  padding: 12px 13px;
+}
+
+.maki-spoiler .interior b {
+  font-weight: bold;
+}
+
+/* REGLA DECORATIVA */
+
+.maki-regla {
+  margin: 18px 0 22px;
+  padding: 12px 8px;
+  text-align: center;
+  font-family: serif;
+  font-size: 14px;
+  color: #d5d0c5;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--rojo-oscuro),
+    var(--rojo-medio),
+    var(--rojo-claro),
+    transparent
+  ) 1;
+}
+
+.maki-regla b {
+  color: var(--rojo-medio);
+}
+
+/* DOMINIO */
+
+.maki-dominio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.maki-dominio-item {
+  text-align: center;
+  padding: 8px 3px;
+}
+
+.maki-dominio-item b {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.maki-dominio-item span {
+  display: block;
+  font-size: 13px;
+}
+
+.maki-rango {
+  margin-top: 7px;
+  font-weight: bold;
+  color: var(--rojo-medio);
+}
+
+/* ADAPTACIÓN A MÓVILES */
+
+@media (max-width: 480px) {
+  .maki-titulo {
+    font-size: 30px;
+  }
+
+  .maki-footer {
+    font-size: 23px;
+  }
+
+  .maki-spoiler .maki-tabimg {
+    height: 80px;
+  }
+
+  .maki-spoiler .maki-labeltitulo {
+    font-size: 24px;
+  }
+
+  .maki-dominio {
+    gap: 4px;
+  }
+
+  .maki-dominio-item {
+    font-size: 13px;
+  }
+
+  .maki-dominio-item span {
+    font-size: 11px;
+  }
+
+  .maki-regla {
+    font-size: 12px;
+  }
+}
